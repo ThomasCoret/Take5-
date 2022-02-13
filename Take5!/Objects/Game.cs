@@ -19,6 +19,10 @@ namespace Take5_.Objects
         public Game(int nMaxPoints, bool drawStuff, int nTotalGames, int nRandomPlayers, int nHumanPlayers, int nSCDPlayers, int nRandomSmartRowReplacePlayers)
         {
             this.nPlayers = nRandomPlayers + nHumanPlayers + nSCDPlayers;
+            if (nPlayers > 10)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
             this.nMaxPoints = nMaxPoints;
             this.drawStuff = drawStuff;
             this.nTotalGames = nTotalGames;
