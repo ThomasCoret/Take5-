@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Take5_.Objects
 {
-    public class Card
+    public class Card : IComparable
     {
         public Card(int n)
         {
             Number = n;
             CowHeads = GetCowHeads(n);
+        }
+
+        public void DrawCard()
+        {
+            Console.Write($"|{Number} ({CowHeads})| ");
         }
 
         private long GetCowHeads(long n)
@@ -31,6 +34,17 @@ namespace Take5_.Objects
                 return 2;
             }
             return 1;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            Card otherCard = obj as Card;
+            if (otherCard != null)
+                return this.Number.CompareTo(otherCard.Number);
+            else
+                throw new ArgumentException("Object is not a Temperature");
         }
 
         public long Number { get; }

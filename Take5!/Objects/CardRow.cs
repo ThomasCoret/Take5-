@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Take5_.Objects
 {
@@ -21,9 +20,10 @@ namespace Take5_.Objects
 
         public void DrawRow()
         {
+            Console.Write($"{Id}: ");
             for(int i = 0; i<NCardsInRow; i++)
             {
-                Console.Write($"|{CardsInRow[i].Number} ({CardsInRow[i].CowHeads})| ");
+                CardsInRow[i].DrawCard();
             }
             Console.WriteLine("");
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using Take5_.Objects;
+﻿using Take5_.Objects;
 
 namespace Take5_
 {
@@ -10,7 +9,7 @@ namespace Take5_
 
         static void Main(string[] args)
         {
-            Game game = new Game(nPlayers, nMaxPoints);
+            Game game = new Game(nPlayers, nMaxPoints, true);
             game.GameLoop();
         }
     }

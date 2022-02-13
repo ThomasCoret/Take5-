@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Take5_.Objects
 {
@@ -13,9 +12,9 @@ namespace Take5_.Objects
         private List<Player> players;
         private PlayField playField;
 
-        public Game(int nPlayers, int nMaxPoints)
+        public Game(int nPlayers, int nMaxPoints, bool humanPlayer)
         {
-            this.nPlayers = nPlayers;
+            this.nPlayers = humanPlayer ? nPlayers + 1 : nPlayers;
             this.nMaxPoints = nMaxPoints;
             deck = new Deck();
             deck.Shuffle();
@@ -23,6 +22,10 @@ namespace Take5_.Objects
             for(int i = 0; i < nPlayers; i++)
             {
                 players.Add(new RandomPlayer(deck.DealPlayerCards(), i));
+            }
+            if (humanPlayer)
+            {
+                players.Add(new HumanPlayer(deck.DealPlayerCards(), nPlayers));
             }
             playField = new PlayField(deck.DealOpenCards());
         }
@@ -82,7 +85,7 @@ namespace Take5_.Objects
             Console.WriteLine("Player Scores: ");
             foreach (Player player in players)
             {
-                Console.WriteLine($"Player {player.Id}: {player.GetTotalPenaltyPoints()}");
+                player.DrawScore();
             }
         }
     }
