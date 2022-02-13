@@ -45,6 +45,11 @@ namespace Take5_.Objects
             Console.WriteLine($"Human Player {Id}: {GetTotalPenaltyPoints()}");
         }
 
+        public override void DrawTotalScore()
+        {
+            Console.WriteLine($"Human Player {Id}: {GetTotalPenaltyPoints()}");
+        }
+
         private void DrawCards()
         {
             foreach (Card card in Hand)

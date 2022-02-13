@@ -4,13 +4,13 @@ namespace Take5_
 {
     class Program
     {
-        static readonly int nPlayers = 4;
-        static readonly int nMaxPoints = 100;
-        static readonly bool humanPlayer = true;
+        static readonly int nRandomPlayers = 4;
+        static readonly int nMaxPoints = 66;
+        static readonly int nHumanPlayers = 0;
 
-        static void Main(string[] args)
+        static void Main()
         {
-            Game game = new Game(nPlayers, nMaxPoints, humanPlayer);
+            Game game = new Game(nMaxPoints, nRandomPlayers, nHumanPlayers);
             game.GameLoop();
         }
     }

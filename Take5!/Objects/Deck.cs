@@ -6,20 +6,27 @@ namespace Take5_.Objects
 {
     public class Deck
     {
-        private static readonly int HandSize = 10;
+        private static readonly int PlayerHandSize = 10;
         private static readonly int OpenCards = 4;
 
         private List<Card> Cards;
 
         public Deck()
         {
-            Cards = new List<Card>();
-            for (int i = 1; i < 106; i++) {
-                Cards.Add(new Card(i));
-            }
+            ResetDeck();
         }
 
-        public void Shuffle()
+        public void ResetDeck()
+        {
+            Cards = new List<Card>();
+            for (int i = 1; i < 106; i++)
+            {
+                Cards.Add(new Card(i));
+            }
+            Shuffle();
+        }
+
+        private void Shuffle()
         {
             Random rnd = new Random();
             Cards = Cards.OrderBy((item) => rnd.Next()).ToList();
@@ -36,7 +43,7 @@ namespace Take5_.Objects
         public List<Card> DealPlayerCards()
         {
             List<Card> dealtCards = new List<Card>();
-            for (int i = 0; i < HandSize; i++)
+            for (int i = 0; i < PlayerHandSize; i++)
             {
                 Card currentCard = Cards[0];
                 Cards.RemoveAt(0);
@@ -55,7 +62,5 @@ namespace Take5_.Objects
             }
             return dealtCards;
         }
-
-        
     }
 }

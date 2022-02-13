@@ -30,6 +30,11 @@ namespace Take5_.Objects
 
         public override void DrawScore()
         {
+            Console.WriteLine($"Computer Player {Id}: {GetPenaltyPointsThisRound()}");
+        }
+
+        public override void DrawTotalScore()
+        {
             Console.WriteLine($"Computer Player {Id}: {GetTotalPenaltyPoints()}");
         }
     }

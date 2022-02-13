@@ -6,17 +6,11 @@ namespace Take5_.Objects
 {
     public class PlayField
     {
-        private readonly List<CardRow> cardRows;
+        private List<CardRow> cardRows;
 
         public PlayField(List<Card> cards)
         {
-            int i = 0;
-            cardRows = new List<CardRow>();
-            foreach(Card card in cards)
-            {
-                cardRows.Add(new CardRow(card, i));
-                i++;
-            }
+            ResetField(cards);
         }
 
         public void DrawField()
@@ -27,6 +21,17 @@ namespace Take5_.Objects
                 row.DrawRow();
             }
             Console.WriteLine("========================================");
+        }
+
+        public void ResetField(List<Card> cards)
+        {
+            int i = 0;
+            cardRows = new List<CardRow>();
+            foreach (Card card in cards)
+            {
+                cardRows.Add(new CardRow(card, i));
+                i++;
+            }
         }
 
         public List<Card> CardPlayed(Card playedCard)

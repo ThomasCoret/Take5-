@@ -40,11 +40,10 @@ namespace Take5_.Objects
         {
             if (obj == null) return 1;
 
-            Card otherCard = obj as Card;
-            if (otherCard != null)
+            if (obj is Card otherCard)
                 return this.Number.CompareTo(otherCard.Number);
             else
-                throw new ArgumentException("Object is not a Temperature");
+                throw new ArgumentException("Object is not a Card");
         }
 
         public long Number { get; }
