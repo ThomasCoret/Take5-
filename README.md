@@ -20,7 +20,7 @@ Random Player 2: 2893\
 Random Player 3: 2952\
 Random Smart Row Replace Player 4: 447\
 Random Smart Row Replace Player 5: 400\
-Random Smart Row Replace Player 6: 443\
+Random Smart Row Replace Player 6: 443
 
 The random with smart row taking/replacing loses about 1/7 the times of a completely random player
 
@@ -32,7 +32,7 @@ Random Player 2: 3142\
 Random Player 3: 3208\
 SCD Player 4: 207\
 SCD Player 5: 199\
-SCD Player 6: 200\
+SCD Player 6: 200
 
 SCD loses about 1/15 the times of a random player
 
@@ -44,7 +44,7 @@ SCD Player 2: 1049\
 SCD Player 3: 1013\
 Random Smart Row Replace Player 4: 2356\
 Random Smart Row Replace Player 5: 2275\
-Random Smart Row Replace Player 6: 2387\
+Random Smart Row Replace Player 6: 2387
 
 SCD loses half of the time the Random Smart row replacer loses.
 
