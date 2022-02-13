@@ -1,11 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Take5_.Objects
 {
     public class Deck
     {
+        private static readonly int HandSize = 10;
+        private static readonly int OpenCards = 4;
+
+        public Deck()
+        {
+            Cards = new List<Card>();
+            for (int i = 1; i < 106; i++) {
+                Cards.Add(new Card(i));
+            }
+        }
+
+        public void Shuffle()
+        {
+            Random rnd = new Random();
+            Cards.OrderBy((item) => rnd.Next());
+        }
+
+        public void PrintDeck()
+        {
+            foreach(Card card in Cards)
+            {
+                Console.WriteLine($"{card.Number} : {card.CowHeads}");
+            }
+        }
+
+        public List<Card> DealPlayerCards()
+        {
+            List<Card> dealtCards = new List<Card>();
+            for (int i = 0; i < HandSize; i++)
+            {
+                Card currentCard = Cards[0];
+                Cards.RemoveAt(0);
+                dealtCards.Add(currentCard);
+            }
+            return dealtCards;
+        }
+        public List<Card> DealOpenCards()
+        {
+            List<Card> dealtCards = new List<Card>();
+            for (int i = 0; i < OpenCards; i++)
+            {
+                Card currentCard = Cards[0];
+                Cards.RemoveAt(0);
+                dealtCards.Add(currentCard);
+            }
+            return dealtCards;
+        }
+
         private List<Card> Cards { get; set; }
     }
 }
