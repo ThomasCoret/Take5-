@@ -30,17 +30,17 @@ namespace Take5_.Objects.Players
 
         public override void DrawScore()
         {
-            Console.WriteLine($"Random Player {Id}: {GetPenaltyPointsThisRound()}");
+            Console.WriteLine($"Random Smart Row Replace Player {Id}: {GetPenaltyPointsThisRound()}");
         }
 
         public override void DrawTotalScore()
         {
-            Console.WriteLine($"Random Player {Id}: {GetTotalPenaltyPoints()}");
+            Console.WriteLine($"Random Smart Row Replace Player {Id}: {GetTotalPenaltyPoints()}");
         }
 
         public override void DrawLosses()
         {
-            Console.WriteLine($"Random Player {Id}: {losses}");
+            Console.WriteLine($"Random Smart Row Replace Player {Id}: {losses}");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Take5_.Objects
         private PlayField playField;
         private long currentGame;
 
-        public Game(int nMaxPoints, bool drawStuff, int nTotalGames, int nRandomPlayers, int nHumanPlayers, int nSCDPlayers)
+        public Game(int nMaxPoints, bool drawStuff, int nTotalGames, int nRandomPlayers, int nHumanPlayers, int nSCDPlayers, int nRandomSmartRowReplacePlayers)
         {
             this.nPlayers = nRandomPlayers + nHumanPlayers + nSCDPlayers;
             this.nMaxPoints = nMaxPoints;
@@ -39,6 +39,11 @@ namespace Take5_.Objects
             for (int i = 0; i < nSCDPlayers; i++)
             {
                 players.Add(new SmallestCardDiffPlayer(deck.DealPlayerCards(), currPlayer));
+                currPlayer++;
+            }
+            for (int i = 0; i < nRandomSmartRowReplacePlayers; i++)
+            {
+                players.Add(new RandomPlayerSmartRowsReplace(deck.DealPlayerCards(), currPlayer));
                 currPlayer++;
             }
             playField = new PlayField(deck.DealOpenCards());
