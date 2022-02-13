@@ -11,7 +11,7 @@ If there are no cards that fit on the board, it picks the highest card, hoping s
 
 # Some results:
 The results are all 3v3 matches over 10.000 games until a player goes over 66 penalty points 
-Random vs Random Smart Row Replacer
+Random vs Random Smart Row Replacer\
 (This is actual output from the 'simulation' itself:)
 
 All games over, final score (in losses):
@@ -50,7 +50,7 @@ SCD loses half of the time the Random Smart row replacer loses.
 
 # Conclusion
 In conclusion it looks like playing cards that fit in closely with the board looks to be a good strategy against random opponents.
-There is a lot of improvement still left, for example actually looking at the board before playing a card
+There is a lot of improvement still left, for example actually looking how full the rows are, how many penalty points are in a row
 and playing low cards when the rows are not filled to take the fewest penalty points on row replacing.
 Feel free to to design your own player to test against these players!
 
