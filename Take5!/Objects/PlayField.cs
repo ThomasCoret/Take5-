@@ -17,10 +17,10 @@ namespace Take5_.Objects
         {
             foreach(CardRow row in cardRows)
             {
-                Console.WriteLine("========================================");
+                Console.WriteLine("===================================================");
                 row.DrawRow();
             }
-            Console.WriteLine("========================================");
+            Console.WriteLine("===================================================");
         }
 
         public void ResetField(List<Card> cards)

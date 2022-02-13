@@ -40,67 +40,76 @@ namespace Take5_.Objects
                 // Only check first player since all players have equal amount of cards (at least they should have)
                 while (players[0].HasCards())
                 {
-                    List<(Card card, long playerId)> playedCards = new List<(Card card, long playerId)>();
-                    // Each player plays a card
-                    foreach (Player player in players)
-                    {
-                        playedCards.Add((player.PlayCard(playField), player.Id));
-                    }
-
-                    Console.WriteLine("Cards played:");
-                    foreach ((Card card, long playerId) playedCard in playedCards)
-                    {
-                        Console.WriteLine($"Player {playedCard.playerId} played {playedCard.card.Number} ({playedCard.card.CowHeads})");
-                    }
-
-                    // Add cards to the board from lowest to highest
-                    for (int i = 0; i < nPlayers; i++)
-                    {
-                        // Get the lowest card left (surely there is a better way to do this)
-                        var currentCard = playedCards.Single(x => x.card.Number == playedCards.Min(x => x.card.Number));
-
-                        List<Card> penaltyCards = null;
-
-                        if (playField.CardFitsOnBoard(currentCard.card))
-                        {
-                            // Card fits normally on the board
-                            penaltyCards = playField.CardPlayed(currentCard.card);
-                        }
-                        else
-                        {
-                            //player needs to select a row to empty and replace with his played card
-                            var rowToRemove = players.Single(x => x.Id == currentCard.playerId).SelectRowToRemove(playField);
-                            penaltyCards = playField.RemoveRow(currentCard.card, rowToRemove);
-                        }
-                        playedCards.Remove(currentCard);
-                        // Add possible penalty cards to the player who played the card
-                        if (penaltyCards.Count > 0)
-                        {
-                            players.Single(x => x.Id == currentCard.playerId).GainPenaltyCards(penaltyCards);
-                        }
-                    }
-                    playField.DrawField();
-                    DrawPlayerScores();
+                    var playedCards = PlayersPlayCards();
+                    AddPlayedCardsToBoard(playedCards);
                 }
+                EndOfRound();
+            }
+        }
 
-                // End of round, reshuffle deck hand out new cards (Total scores are updated in NewHand so we have to deal cards even if there is no new round)
-                deck.ResetDeck();
-                foreach (Player player in players)
-                {
-                    player.NewHand(deck.DealPlayerCards());
-                }
+        private List<(Card card, long playerId)> PlayersPlayCards()
+        {
+            List<(Card card, long playerId)> playedCards = new List<(Card card, long playerId)>();
+            // Each player plays a card
+            foreach (Player player in players)
+            {
+                playedCards.Add((player.PlayCard(playField), player.Id));
+            }
+            DrawCardsPlayed(playedCards);
+            return playedCards;
+        }
 
-                if (GameEnd())
+        private void AddPlayedCardsToBoard(List<(Card card, long playerId)> playedCards)
+        {
+            // Add cards to the board from lowest to highest
+            for (int i = 0; i < nPlayers; i++)
+            {
+                // Get the lowest card left (surely there is a better way to do this)
+                var currentCard = playedCards.Single(x => x.card.Number == playedCards.Min(x => x.card.Number));
+
+                List<Card> penaltyCards = null;
+
+                if (playField.CardFitsOnBoard(currentCard.card))
                 {
-                    Console.WriteLine($"Game over, a player went over {nMaxPoints}. Definite score is:");
+                    // Card fits normally on the board
+                    penaltyCards = playField.CardPlayed(currentCard.card);
                 }
                 else
                 {
-                    Console.WriteLine($"Round over, no player went over {nMaxPoints}. Reshuffling the deck and giving players new cards. Current standings:");
+                    //player needs to select a row to empty and replace with his played card
+                    var rowToRemove = players.Single(x => x.Id == currentCard.playerId).SelectRowToRemove(playField);
+                    penaltyCards = playField.RemoveRow(currentCard.card, rowToRemove);
                 }
-
-                DrawPlayerTotalScores();
+                playedCards.Remove(currentCard);
+                // Add possible penalty cards to the player who played the card
+                if (penaltyCards.Count > 0)
+                {
+                    players.Single(x => x.Id == currentCard.playerId).GainPenaltyCards(penaltyCards);
+                }
             }
+            playField.DrawField();
+            DrawPlayerScores();
+        }
+
+        public void EndOfRound()
+        {
+            // End of round, reshuffle deck hand out new cards (Total scores are updated in NewHand so we have to deal cards even if there is no new round)
+            deck.ResetDeck();
+            foreach (Player player in players)
+            {
+                player.NewHand(deck.DealPlayerCards());
+            }
+
+            if (GameEnd())
+            {
+                Console.WriteLine($"Game over, a player went over {nMaxPoints}. Definite score is:");
+            }
+            else
+            {
+                Console.WriteLine($"Round over, no player went over {nMaxPoints}. Reshuffling the deck and giving players new cards. Current standings:");
+            }
+
+            DrawPlayerTotalScores();
         }
 
         private bool GameEnd()
@@ -113,6 +122,15 @@ namespace Take5_.Objects
                 }
             }
             return false;
+        }
+
+        private void DrawCardsPlayed(List<(Card card, long playerId)> playedCards)
+        {
+            Console.WriteLine("Cards played:");
+            foreach ((Card card, long playerId) playedCard in playedCards)
+            {
+                Console.WriteLine($"Player {playedCard.playerId} played {playedCard.card.Number} ({playedCard.card.CowHeads})");
+            }
         }
 
         private void DrawPlayerScores()
