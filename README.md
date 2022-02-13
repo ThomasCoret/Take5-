@@ -14,7 +14,7 @@ The results are all 3v3 matches over 10.000 games until a player goes over 66 pe
 Random vs Random Smart Row Replacer\
 (This is actual output from the 'simulation' itself:)
 
-All games over, final score (in losses):
+All games over, final score (in losses):\
 Random Player 1: 2998\
 Random Player 2: 2893\
 Random Player 3: 2952\
@@ -26,7 +26,7 @@ The random with smart row taking/replacing loses about 1/7 the times of a comple
 
 The Smallest card difference player (SCD player) vs random
 
-All games over, final score (in losses):
+All games over, final score (in losses):\
 Random Player 1: 3183\
 Random Player 2: 3142\
 Random Player 3: 3208\
@@ -38,7 +38,7 @@ SCD loses about 1/15 the times of a random player
 
 SCD vs smart row replace random:
 
-All games over, final score (in losses):
+All games over, final score (in losses):\
 SCD Player 1: 1051\
 SCD Player 2: 1049\
 SCD Player 3: 1013\
