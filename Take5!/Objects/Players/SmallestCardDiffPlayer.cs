@@ -5,7 +5,7 @@ using System.Linq;
 namespace Take5_.Objects.Players
 {
     // This player choses the card that has the closest gap to one of the rows. He also chooses smart rows to remove (lowest penalty points (obviously))
-    // He chooses the highest possible card if no card fits on the board
+    // He chooses the highest possible card if no card fits on the board (so that other players might also play a low card and he doens't have to take a row
     public class SmallestCardDiffPlayer : Player
     {
         public SmallestCardDiffPlayer(List<Card> dealtCards, int Id) : base(dealtCards, Id){ }
