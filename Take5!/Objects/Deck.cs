@@ -10,6 +10,8 @@ namespace Take5_.Objects
         private static readonly int HandSize = 10;
         private static readonly int OpenCards = 4;
 
+        private List<Card> Cards;
+
         public Deck()
         {
             Cards = new List<Card>();
@@ -21,7 +23,7 @@ namespace Take5_.Objects
         public void Shuffle()
         {
             Random rnd = new Random();
-            Cards.OrderBy((item) => rnd.Next());
+            Cards = Cards.OrderBy((item) => rnd.Next()).ToList();
         }
 
         public void PrintDeck()
@@ -55,6 +57,6 @@ namespace Take5_.Objects
             return dealtCards;
         }
 
-        private List<Card> Cards { get; set; }
+        
     }
 }

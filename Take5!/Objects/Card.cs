@@ -33,7 +33,7 @@ namespace Take5_.Objects
             return 1;
         }
 
-        public long Number { get;  }
+        public long Number { get; }
 
         public long CowHeads { get; }
     }

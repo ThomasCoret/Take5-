@@ -7,26 +7,61 @@ namespace Take5_.Objects
 {
     public class PlayField
     {
-        private readonly List<CardRow> CardRows;
+        private readonly List<CardRow> cardRows;
 
         public PlayField(List<Card> cards)
         {
+            int i = 0;
+            cardRows = new List<CardRow>();
             foreach(Card card in cards)
             {
-                CardRows.Add(new CardRow(card));
+                cardRows.Add(new CardRow(card, i));
+                i++;
             }
         }
 
-        public void CardPlayed(Card playedCard)
+        public void DrawField()
+        {
+            foreach(CardRow row in cardRows)
+            {
+                Console.WriteLine("========================================");
+                row.DrawRow();
+            }
+            Console.WriteLine("========================================");
+        }
+
+        public List<Card> CardPlayed(Card playedCard)
         {
             //random big number
-            int smallesDiff = 10000;
-            for(List<Card>)
+            long smallestDiff = 10000;
+            long smallestDiffId = -1;
+
+            foreach(CardRow row in cardRows)
+            {
+                long diff = playedCard.Number - row.GetHighestCard().Number;
+                if (diff > 0 && diff < smallestDiff)
+                {
+                    smallestDiff = diff;
+                    smallestDiffId = row.Id;
+                }
+            }
+
+            return cardRows.Single(x => x.Id == smallestDiffId).AddCardToRow(playedCard);
+        }
+
+        public List<Card> RemoveRow(Card playedCard, long rowId)
+        {
+            return cardRows.Single(x => x.Id == rowId).AddCardToRow(playedCard);
+        }
+
+        public List<CardRow> GetRows()
+        {
+            return cardRows;
         }
 
         public bool CardFitsOnBoard(Card card)
         {
-            return CardRows.Any(x => x.CardFitsInRow(card));
+            return cardRows.Any(x => x.CardFitsInRow(card));
         }
     }
 }
