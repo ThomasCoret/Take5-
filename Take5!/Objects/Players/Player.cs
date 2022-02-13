@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Take5_.Objects
+namespace Take5_.Objects.Players
 {
     public abstract class Player : IComparable
     {
         public long Id;
+        public long losses;
         protected List<Card> Hand;
         protected List<Card> PenaltyCards;
         protected long TotalPenaltyPoints;
@@ -22,13 +23,25 @@ namespace Take5_.Objects
         public abstract Card PlayCard(PlayField field);
         public abstract int SelectRowToRemove(PlayField field);
         public abstract void DrawScore();
-
         public abstract void DrawTotalScore();
+        public abstract void DrawLosses();
+
+        public void ResetHand()
+        {
+            // Why is there no remove all that does not need any input?
+            Hand = new List<Card>();
+            PenaltyCards = new List<Card>();
+        }
+
+        public void ResetScore()
+        {
+            TotalPenaltyPoints = 0;
+        }
 
         public void NewHand(List<Card> newCards)
         {
             TotalPenaltyPoints += GetPenaltyPointsThisRound();
-            PenaltyCards = new List<Card>();
+            ResetHand();
             Hand.AddRange(newCards);
         }
         

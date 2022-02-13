@@ -46,6 +46,16 @@ namespace Take5_.Objects
             return new List<Card>();
         } 
 
+        public long GetPenaltyPointsInRow()
+        {
+            long total = 0;
+            for (int i = 0; i < NCardsInRow; i++)
+            {
+                total += CardsInRow[i].CowHeads;
+            }
+            return total;
+        }
+
         public Card GetHighestCard()
         {
             return CardsInRow[NCardsInRow - 1];

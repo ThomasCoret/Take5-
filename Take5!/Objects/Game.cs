@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Take5_.Objects.Players;
 
 namespace Take5_.Objects
 {
@@ -8,14 +9,20 @@ namespace Take5_.Objects
     {
         private readonly int nPlayers;
         private readonly int nMaxPoints;
+        private readonly bool drawStuff;
+        private readonly int nTotalGames;
         private Deck deck;
         private List<Player> players;
         private PlayField playField;
+        private long currentGame;
 
-        public Game(int nMaxPoints, int nRandomPlayers, int nHumanPlayers)
+        public Game(int nMaxPoints, bool drawStuff, int nTotalGames, int nRandomPlayers, int nHumanPlayers, int nSCDPlayers)
         {
-            this.nPlayers = nRandomPlayers + nHumanPlayers;
+            this.nPlayers = nRandomPlayers + nHumanPlayers + nSCDPlayers;
             this.nMaxPoints = nMaxPoints;
+            this.drawStuff = drawStuff;
+            this.nTotalGames = nTotalGames;
+            this.currentGame = 0;
             deck = new Deck();
             players = new List<Player>();
             int currPlayer = 1;
@@ -29,21 +36,39 @@ namespace Take5_.Objects
                 players.Add(new HumanPlayer(deck.DealPlayerCards(), currPlayer));
                 currPlayer++;
             }
+            for (int i = 0; i < nSCDPlayers; i++)
+            {
+                players.Add(new SmallestCardDiffPlayer(deck.DealPlayerCards(), currPlayer));
+                currPlayer++;
+            }
             playField = new PlayField(deck.DealOpenCards());
         }
 
         public void GameLoop()
         {
-            playField.DrawField();
-            while (!GameEnd())
+            for (int i = 0; i < nTotalGames; i++)
             {
-                // Only check first player since all players have equal amount of cards (at least they should have)
-                while (players[0].HasCards())
+                if (drawStuff)
                 {
-                    var playedCards = PlayersPlayCards();
-                    AddPlayedCardsToBoard(playedCards);
+                    playField.DrawField();
                 }
-                EndOfRound();
+                while (!GameEnd())
+                {
+                    // Only check first player since all players have equal amount of cards (at least they should have)
+                    while (players[0].HasCards())
+                    {
+                        var playedCards = PlayersPlayCards();
+                        AddPlayedCardsToBoard(playedCards);
+                    }
+                    EndOfRound();
+                }
+                ResetGame();
+                currentGame++;
+            }
+            Console.WriteLine($"All games over, final score (in losses):");
+            foreach (Player player in players)
+            {
+                player.DrawLosses();
             }
         }
 
@@ -87,8 +112,11 @@ namespace Take5_.Objects
                     players.Single(x => x.Id == currentCard.playerId).GainPenaltyCards(penaltyCards);
                 }
             }
-            playField.DrawField();
-            DrawPlayerScores();
+            if (drawStuff)
+            {
+                playField.DrawField();
+                DrawPlayerScores();
+            }
         }
 
         public void EndOfRound()
@@ -99,17 +127,39 @@ namespace Take5_.Objects
             {
                 player.NewHand(deck.DealPlayerCards());
             }
-
-            if (GameEnd())
+            if (drawStuff)
             {
-                Console.WriteLine($"Game over, a player went over {nMaxPoints}. Definite score is:");
+                if (GameEnd())
+                {
+                    Console.WriteLine($"Game over, a player went over {nMaxPoints}. Definite score is:");
+                }
+                else
+                {
+                    Console.WriteLine($"Round over, no player went over {nMaxPoints}. Reshuffling the deck and giving players new cards. Current standings:");
+                }
             }
-            else
+            if (drawStuff)
             {
-                Console.WriteLine($"Round over, no player went over {nMaxPoints}. Reshuffling the deck and giving players new cards. Current standings:");
+                DrawPlayerTotalScores();
             }
+        }
 
-            DrawPlayerTotalScores();
+        private void ResetGame()
+        {
+            // Add loss to the big loser(s) of the round
+            var losers = players.Where(x => x.GetTotalPenaltyPoints() == players.Max(x => x.GetTotalPenaltyPoints()));
+            foreach (Player loser in losers)
+            {
+                //Console.WriteLine($"{loser.Id} lost game {currentGame}");
+                loser.losses++;
+            }
+            deck.ResetDeck();
+            foreach (Player player in players)
+            {
+                player.ResetHand();
+                player.NewHand(deck.DealPlayerCards());
+                player.ResetScore();
+            }
         }
 
         private bool GameEnd()
@@ -126,30 +176,39 @@ namespace Take5_.Objects
 
         private void DrawCardsPlayed(List<(Card card, long playerId)> playedCards)
         {
-            Console.WriteLine("Cards played:");
-            foreach ((Card card, long playerId) playedCard in playedCards)
+            if (drawStuff)
             {
-                Console.WriteLine($"Player {playedCard.playerId} played {playedCard.card.Number} ({playedCard.card.CowHeads})");
+                Console.WriteLine("Cards played:");
+                foreach ((Card card, long playerId) playedCard in playedCards)
+                {
+                    Console.WriteLine($"Player {playedCard.playerId} played {playedCard.card.Number} ({playedCard.card.CowHeads})");
+                }
             }
         }
 
         private void DrawPlayerScores()
         {
-            players.Sort();
-            Console.WriteLine("Player Scores: ");
-            foreach (Player player in players)
+            if (drawStuff)
             {
-                player.DrawScore();
+                players.Sort();
+                Console.WriteLine("Player Scores: ");
+                foreach (Player player in players)
+                {
+                    player.DrawScore();
+                }
             }
         }
 
         private void DrawPlayerTotalScores()
         {
-            players.Sort();
-            Console.WriteLine("Player Total Scores: ");
-            foreach (Player player in players)
+            if (drawStuff)
             {
-                player.DrawTotalScore();
+                players.Sort();
+                Console.WriteLine("Player Total Scores: ");
+                foreach (Player player in players)
+                {
+                    player.DrawTotalScore();
+                }
             }
         }
     }

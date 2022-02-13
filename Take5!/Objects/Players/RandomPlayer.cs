@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Take5_.Objects
+namespace Take5_.Objects.Players
 {
     public class RandomPlayer : Player
     {
@@ -30,12 +30,17 @@ namespace Take5_.Objects
 
         public override void DrawScore()
         {
-            Console.WriteLine($"Computer Player {Id}: {GetPenaltyPointsThisRound()}");
+            Console.WriteLine($"Random Player {Id}: {GetPenaltyPointsThisRound()}");
         }
 
         public override void DrawTotalScore()
         {
-            Console.WriteLine($"Computer Player {Id}: {GetTotalPenaltyPoints()}");
+            Console.WriteLine($"Random Player {Id}: {GetTotalPenaltyPoints()}");
+        }
+
+        public override void DrawLosses()
+        {
+            Console.WriteLine($"Random Player {Id}: {losses}");
         }
     }
 }
